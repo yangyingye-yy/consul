@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import { get } from '@ember/object';
 import { config } from 'consul-ui/env';
 import RepositoryService from 'consul-ui/services/repository';
+import { Promise } from 'rsvp';
 
 const modelName = 'nspace';
 export default RepositoryService.extend({
