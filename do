@@ -17,8 +17,8 @@ check() {
 
 help[go-mod-tidy]="Run 'go mod tidy' on all go modules."
 go-mod-tidy() {
-	echo "--> Running go mod tidy"
-	go mod tidy
+    echo "--> Running go mod tidy"
+    go mod tidy
     (cd sdk && go mod tidy)
     (cd api && go mod tidy)
 }
@@ -26,12 +26,12 @@ go-mod-tidy() {
 help[update-vendor]="Update ./vendor after making changing dependencies."
 update-vendor() {
     go-mod-tidy
-	echo "--> Running go mod vendor"
-	go mod vendor
-	echo "--> Removing vendoring of our own nested modules"
-	rm -rf vendor/github.com/hashicorp/consul
-	grep -v "hashicorp/consul/" < vendor/modules.txt > vendor/modules.txt.new
-	mv vendor/modules.txt.new vendor/modules.txt
+    echo "--> Running go mod vendor"
+    go mod vendor
+    echo "--> Removing vendoring of our own nested modules"
+    rm -rf vendor/github.com/hashicorp/consul
+    grep -v "hashicorp/consul/" < vendor/modules.txt > vendor/modules.txt.new
+    mv vendor/modules.txt.new vendor/modules.txt
 }
 
 help[lint]="Run 'golangci-lint' on all files.
@@ -42,10 +42,10 @@ Environment Variables:
 "
 lint() {
     ${GOTAGS=}
-	echo "--> Running go golangci-lint"
-	golangci-lint run --build-tags "${GOTAGS}"
-	(cd api && golangci-lint run --build-tags "${GOTAGS}")
-	(cd sdk && golangci-lint run --build-tags "${GOTAGS}")
+    echo "--> Running go golangci-lint"
+    golangci-lint run --build-tags "${GOTAGS}"
+    (cd api && golangci-lint run --build-tags "${GOTAGS}")
+    (cd sdk && golangci-lint run --build-tags "${GOTAGS}")
 }
 
 help[binary]="Build the consul binary.
@@ -64,13 +64,14 @@ binary() {
 
 _go_build_ldflags() {
     local commit; commit=$(git rev-parse --short HEAD)
-    local dity;   [ -z "$(git status --porcelain)" ] || dirty="+CHANGES"
+    local dirty;   [ -z "$(git status --porcelain)" ] || dirty="+CHANGES"
     local desc;   desc="$(git describe --tags --always --match 'v*')"
     local import=github.com/hashicorp/consul/version
     echo "-X ${import}.GitCommit=${commit}${dirty} -X ${import}.GitDescribe=${desc}"
 }
 
 binary-all() {
+    # TODO: use parallel
     GOOS=linux  GOARCH=amd64 binary
     GOOS=darwin GOARCH=amd64 binary
 }
