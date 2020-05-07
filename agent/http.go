@@ -81,7 +81,7 @@ func (e ForbiddenError) Error() string {
 
 // HTTPServer provides an HTTP api for an agent.
 type HTTPServer struct {
-	*http.Server
+	Server    *http.Server
 	ln        net.Listener
 	agent     *Agent
 	blacklist *Blacklist

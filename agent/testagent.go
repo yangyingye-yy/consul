@@ -328,7 +328,7 @@ func (a *TestAgent) HTTPAddr() string {
 	if a.srv == nil {
 		return ""
 	}
-	return a.srv.Addr
+	return a.srv.Server.Addr
 }
 
 func (a *TestAgent) SegmentAddr(name string) string {

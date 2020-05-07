@@ -1006,7 +1006,7 @@ func (a *Agent) serveHTTP(srv *HTTPServer) error {
 	go func() {
 		defer a.wgServers.Done()
 		notif <- srv.ln.Addr()
-		err := srv.Serve(srv.ln)
+		err := srv.Server.Serve(srv.ln)
 		if err != nil && err != http.ErrServerClosed {
 			a.logger.Error("error closing server", "error", err)
 		}
@@ -1834,7 +1834,7 @@ func (a *Agent) ShutdownEndpoints() {
 		)
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		srv.Shutdown(ctx)
+		srv.Server.Shutdown(ctx)
 		if ctx.Err() == context.DeadlineExceeded {
 			a.logger.Warn("Timeout stopping server",
 				"protocol", strings.ToUpper(srv.proto),

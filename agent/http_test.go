@@ -169,7 +169,7 @@ func TestHTTPServer_H2(t *testing.T) {
 		resp.WriteHeader(http.StatusOK)
 		fmt.Fprint(resp, req.Proto)
 	}
-	w, ok := a.srv.Handler.(*wrappedMux)
+	w, ok := a.srv.Server.Handler.(*wrappedMux)
 	if !ok {
 		t.Fatalf("handler is not expected type")
 	}
@@ -332,7 +332,7 @@ func TestHTTPAPI_Ban_Nonprintable_Characters(t *testing.T) {
 		t.Fatal(err)
 	}
 	resp := httptest.NewRecorder()
-	a.srv.Handler.ServeHTTP(resp, req)
+	a.srv.Server.Handler.ServeHTTP(resp, req)
 	if got, want := resp.Code, http.StatusBadRequest; got != want {
 		t.Fatalf("bad response code got %d want %d", got, want)
 	}
@@ -351,7 +351,7 @@ func TestHTTPAPI_Allow_Nonprintable_Characters_With_Flag(t *testing.T) {
 		t.Fatal(err)
 	}
 	resp := httptest.NewRecorder()
-	a.srv.Handler.ServeHTTP(resp, req)
+	a.srv.Server.Handler.ServeHTTP(resp, req)
 	// Key doesn't actually exist so we should get 404
 	if got, want := resp.Code, http.StatusNotFound; got != want {
 		t.Fatalf("bad response code got %d want %d", got, want)
@@ -780,7 +780,7 @@ func TestPProfHandlers_EnableDebug(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/debug/pprof/profile?seconds=1", nil)
 
-	a.srv.Handler.ServeHTTP(resp, req)
+	a.srv.Server.Handler.ServeHTTP(resp, req)
 
 	require.Equal(http.StatusOK, resp.Code)
 }
@@ -794,7 +794,7 @@ func TestPProfHandlers_DisableDebugNoACLs(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/debug/pprof/profile", nil)
 
-	a.srv.Handler.ServeHTTP(resp, req)
+	a.srv.Server.Handler.ServeHTTP(resp, req)
 
 	require.Equal(http.StatusUnauthorized, resp.Code)
 }
@@ -865,7 +865,7 @@ func TestPProfHandlers_ACLs(t *testing.T) {
 		t.Run(fmt.Sprintf("case %d (%#v)", i, c), func(t *testing.T) {
 			req, _ := http.NewRequest("GET", fmt.Sprintf("%s?token=%s", c.endpoint, c.token), nil)
 			resp := httptest.NewRecorder()
-			a.srv.Handler.ServeHTTP(resp, req)
+			a.srv.Server.Handler.ServeHTTP(resp, req)
 			assert.Equal(c.code, resp.Code)
 		})
 	}
@@ -1153,7 +1153,7 @@ func TestEnableWebUI(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "/ui/", nil)
 	resp := httptest.NewRecorder()
-	a.srv.Handler.ServeHTTP(resp, req)
+	a.srv.Server.Handler.ServeHTTP(resp, req)
 	if resp.Code != 200 {
 		t.Fatalf("should handle ui")
 	}
