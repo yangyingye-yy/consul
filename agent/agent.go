@@ -904,7 +904,7 @@ func (a *Agent) listenHTTP() ([]*HTTPServer, error) {
 				blacklist: NewBlacklist(a.config.HTTPBlockEndpoints),
 				proto:     proto,
 			}
-			srv.Server.Handler = srv.handler(a.config.EnableDebug)
+			srv.Server.Handler = srv.newHandler(a.config.EnableDebug)
 
 			// Load the connlimit helper into the server
 			connLimitFn := a.httpConnLimiter.HTTPConnStateFunc()

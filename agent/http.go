@@ -198,7 +198,7 @@ var endpoints map[string]unboundEndpoint
 
 // allowedMethods is a map from endpoint prefix to supported HTTP methods.
 // An empty slice means an endpoint handles OPTIONS requests and MethodNotFound errors itself.
-var allowedMethods map[string][]string = make(map[string][]string)
+var allowedMethods = make(map[string][]string)
 
 // registerEndpoint registers a new endpoint, which should be done at package
 // init() time.
@@ -226,7 +226,7 @@ func (w *wrappedMux) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 }
 
 // handler is used to attach our handlers to the mux
-func (s *HTTPServer) handler(enableDebug bool) http.Handler {
+func (s *HTTPServer) newHandler(enableDebug bool) http.Handler {
 	mux := http.NewServeMux()
 
 	// handleFuncMetrics takes the given pattern and handler and wraps to produce
