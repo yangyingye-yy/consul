@@ -1,0 +1,11 @@
+{{yield}}
+<div class="popover-panel" ...attributes>
+  <PopoverMenu @keyboardAccess={{false}}>
+    <BlockSlot @name="trigger">
+      {{yield}}
+    </BlockSlot>
+    <BlockSlot @name="menu">
+      {{yield}}
+    </BlockSlot>
+  </PopoverMenu>
+</div>
