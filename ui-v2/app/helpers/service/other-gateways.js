@@ -3,11 +3,11 @@ import { helper } from '@ember/component/helper';
 export function serviceOtherGateways([item], hash) {
   switch (true) {
     case item === 'mesh-gateway':
-      return ['Terminating', 'Ingress'];
+      return ['terminating', 'ingress'];
     case item === 'terminating-gateway':
-      return ['Mesh', 'Ingress'];
+      return ['mesh', 'ingress'];
     case item === 'ingress-gateway':
-      return ['Terminating', 'Mesh'];
+      return ['terminating', 'mesh'];
     default:
       return '';
   }

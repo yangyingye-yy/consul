@@ -15,6 +15,41 @@
       </h1>
       <ConsulExternalSource @item={{item}} />
       <ConsulKind @item={{item}} />
+      <MenuPanel>
+        <BlockSlot @name="menu" as |id send keypressClick change|>
+          <li role="description">
+            {{service/gateway-description item.Kind}}
+          </li>
+          <li role="separator">
+            ABOUT {{titleize (concat (humanize item.Kind) 's')}}
+          </li>
+          <li role="none" class="learn-link">
+            <a tabindex="-1" role="menuitem" href={{concat (env 'CONSUL_DOCS_LEARN_URL') '/consul'}} rel="noopener noreferrer" target="_blank" onclick={{change}}>
+              Learn Guides
+            </a>
+          </li>
+          <li role="none" class="docs-link">
+            <a
+              tabindex="-1" role="menuitem"
+              href="{{env 'CONSUL_DOCS_URL'}}/connect/{{underscore item.Kind}}.html"
+              rel="noopener noreferrer"
+              target="_blank" onclick={{change}}
+            >
+              Documentation
+            </a>
+          </li>
+          <li role="separator">
+            OTHER GATEWAY TYPES
+          </li>
+        {{#each (service/other-gateways item.Kind) as |gateway|}}
+           <li role="none" class="docs-link">
+            <a href="{{env 'CONSUL_DOCS_URL'}}/connect/{{gateway}}_gateway.html" target="_blank" rel="noopener noreferrer" tabindex="-1" role="menuitem">
+              {{capitalize gateway}} gateways
+            </a>
+          </li>
+        {{/each}}
+        </BlockSlot>
+      </MenuPanel>
     </BlockSlot>
     <BlockSlot @name="nav">
       <dl>

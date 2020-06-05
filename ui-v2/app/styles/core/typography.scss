@@ -42,7 +42,8 @@ pre code,
 %flash-message p,
 %filter-bar input,
 %phrase-editor input,
-%tab-section section p {
+%tab-section section p,
+.popover-panel [role='none'] {
   @extend %p1;
 }
 %menu-panel dl,
@@ -64,7 +65,8 @@ pre code,
 %main-content p,
 %form-element-note,
 %menu-panel-separator,
-%form-element-error > strong {
+%form-element-error > strong,
+.popover-panel {
   @extend %p3;
 }
 

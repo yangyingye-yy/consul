@@ -1,0 +1,14 @@
+{{yield}}
+<div class='menu-panel'>
+  {{#yield-slot name='header'}}
+    <div>
+      {{yield}}
+    </div>
+  {{else}}
+  {{/yield-slot}}
+  <ul role="menu" id={{ariaControls}} aria-labelledby={{ariaLabelledBy}} aria-expanded={{ariaExpanded}}>
+    <YieldSlot @name="menu">
+      {{yield}}
+    </YieldSlot>
+  </ul>
+</div>

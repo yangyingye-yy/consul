@@ -1,0 +1,28 @@
+.popover-panel {
+  @extend %with-popover-menu;
+}
+.popover-panel label + div {
+  min-width: 220px;
+  overflow: visible !important;
+}
+.popover-panel label + div::before {
+  content: '';
+  border-left: 5px solid $gray-300;
+  border-right: 5px solid $gray-300;
+  border-bottom: 5px solid $transparent;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 0;
+}
+.popover-panel .docs-link a::after {
+  @extend %with-docs-icon, %as-pseudo;
+}
+.popover-panel .learn-link a::after {
+  @extend %with-learn-icon, %as-pseudo;
+}
+.popover-panel [role='none'] {
+  font-weight: $typo-weight-medium;
+}

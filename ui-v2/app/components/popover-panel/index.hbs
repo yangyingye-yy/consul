@@ -1,6 +1,6 @@
 {{yield}}
-<div class="popover-panel" ...attributes>
-  <PopoverMenu @keyboardAccess={{false}}>
+<div class="popover-panel">
+  <PopoverMenu @keyboardAccess={{false}} @activeOnHover={{true}}>
     <BlockSlot @name="trigger">
       {{yield}}
     </BlockSlot>

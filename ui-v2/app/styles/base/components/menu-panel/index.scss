@@ -1,5 +1,8 @@
 @import './skin';
 @import './layout';
+.menu-panel {
+  @extend %menu-panel;
+}
 
 %menu-panel [role='separator'] {
   @extend %menu-panel-separator;
@@ -10,6 +13,9 @@
 // %menu-panel > ul > li > *:not(div),
 %menu-panel [role='menuitem'] {
   @extend %internal-button;
+}
+%menu-panel [role='description'] {
+  @extend %menu-panel-description;
 }
 %menu-panel > ul > li.dangerous > *:not(div) {
   @extend %internal-button-dangerous;
