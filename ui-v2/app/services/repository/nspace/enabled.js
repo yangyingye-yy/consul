@@ -1,12 +1,12 @@
 import { inject as service } from '@ember/service';
 import { get } from '@ember/object';
-import { env } from 'consul-ui/env';
 import RepositoryService from 'consul-ui/services/repository';
 import { PRIMARY_KEY, SLUG_KEY } from 'consul-ui/models/nspace';
 
 const modelName = 'nspace';
 export default RepositoryService.extend({
   router: service('router'),
+  env: service('env'),
   settings: service('settings'),
   getPrimaryKey: function() {
     return PRIMARY_KEY;
@@ -25,7 +25,7 @@ export default RepositoryService.extend({
     return this.store.query(this.getModelName(), query);
   },
   authorize: function(dc, nspace) {
-    if (!env('CONSUL_ACLS_ENABLED')) {
+    if (!this.env.var('CONSUL_ACLS_ENABLED')) {
       return Promise.resolve([
         {
           Resource: 'operator',

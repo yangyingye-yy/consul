@@ -2,11 +2,11 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { hash } from 'rsvp';
 import { getOwner } from '@ember/application';
-import { env } from 'consul-ui/env';
 import transitionable from 'consul-ui/utils/routing/transitionable';
 
 const DEFAULT_NSPACE_PARAM = '~default';
 export default Route.extend({
+  env: service('env'),
   repo: service('repository/dc'),
   router: service('router'),
   // The ember router seems to change the priority of individual routes
@@ -24,7 +24,7 @@ export default Route.extend({
   // to where they wanted to go.
   beforeModel: function(transition) {
     if (!this.paramsFor('nspace').nspace.startsWith('~')) {
-      const url = `${env('rootURL')}${DEFAULT_NSPACE_PARAM}${transition.intent.url}`;
+      const url = `${this.env.var('rootURL')}${DEFAULT_NSPACE_PARAM}${transition.intent.url}`;
       const route = this.router.recognize(url);
       const [name, ...params] = transitionable(route, {}, getOwner(this));
       this.replaceWith.apply(this, [

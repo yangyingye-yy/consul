@@ -7,7 +7,7 @@ export default Adapter.extend({
   client: service('client/http'),
   env: service('env'),
   formatNspace: function(nspace) {
-    if (this.env.env('CONSUL_NSPACES_ENABLED')) {
+    if (this.env.var('CONSUL_NSPACES_ENABLED')) {
       return nspace !== '' ? { [NSPACE_QUERY_PARAM]: nspace } : undefined;
     }
   },
