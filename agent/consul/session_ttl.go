@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/armon/go-metrics"
+	"github.com/hashicorp/consul/agent/consul/usagemetrics"
 	"github.com/hashicorp/consul/agent/structs"
 )
 
@@ -133,6 +134,16 @@ func (s *Server) clearAllSessionTimers() {
 // updateMetrics is a long running routine used to uddate a
 // number of server periodic metrics
 func (s *Server) updateMetrics() {
+	// TODO (cpiraino): Where is the right place to put this?
+	reporter := usagemetrics.NewUsageMetricsReporter(
+		s.fsm,
+		usagemetrics.WithLogger(s.logger),
+		usagemetrics.WithDatacenter(s.config.Datacenter),
+		usagemetrics.WithReportingInterval(10*time.Second),
+	)
+
+	go reporter.Run(s.shutdownCh)
+
 	for {
 		select {
 		case <-time.After(time.Second):
