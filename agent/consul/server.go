@@ -238,8 +238,9 @@ type Server struct {
 	rpcConnLimiter connlimit.Limiter
 
 	// Listener is used to listen for incoming connections
-	Listener  net.Listener
-	rpcServer *rpc.Server
+	Listener    net.Listener
+	grpcHandler *grpcHandler
+	rpcServer   *rpc.Server
 
 	// insecureRPCServer is a RPC server that is configure with
 	// IncomingInsecureRPCConfig to allow clients to call AutoEncrypt.Sign
@@ -377,6 +378,7 @@ func NewServer(config *Config, options ...ConsulOption) (*Server, error) {
 
 	serverLogger := logger.NamedIntercept(logging.ConsulServer)
 	loggers := newLoggerStore(serverLogger)
+
 	// Create server.
 	s := &Server{
 		config:                  config,
@@ -400,6 +402,7 @@ func NewServer(config *Config, options ...ConsulOption) (*Server, error) {
 		shutdownCh:              shutdownCh,
 		leaderRoutineManager:    NewLeaderRoutineManager(logger),
 		aclAuthMethodValidators: authmethod.NewCache(),
+		// TODO: set grpcHandler
 	}
 
 	if s.config.ConnectMeshGatewayWANFederationEnabled {
