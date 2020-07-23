@@ -7,9 +7,9 @@
  */
 syntax = "proto3";
 
-package proto/events;
+package events;
 
-import "structs.proto";
+import "proto/pbservice/structs.proto";
 
 // StateEvents
 // TODO: doc
@@ -117,5 +117,5 @@ enum CatalogOp {
 
 message ServiceHealthUpdate {
     CatalogOp Op = 1;
-    // TODO: CheckServiceNode CheckServiceNode = 2;
+    pbservice.CheckServiceNode CheckServiceNode = 2;
 }
