@@ -357,6 +357,12 @@ func (r *Router) FindRoute(datacenter string) (*Manager, *metadata.Server, bool)
 	return r.routeFn(datacenter)
 }
 
+// FindLANRoute returns a healthy server for the local datacenter from the LAN area.
+// The boolean return parameter will indicate if a server was available. In some
+// cases this may return a best-effort unhealthy server that can be used for a
+// connection attempt. If any problem occurs with the given server, the caller
+// should feed that back to the manager associated with the server, which is also
+// returned, by calling NotifyFailedServer.
 func (r *Router) FindLANRoute() (*Manager, *metadata.Server, bool) {
 	mgr := r.GetLANManager()
 
@@ -365,6 +371,13 @@ func (r *Router) FindLANRoute() (*Manager, *metadata.Server, bool) {
 	}
 
 	return mgr, mgr.FindServer(), true
+}
+
+// FindLANServer attempts to find a server in the local datacenter. This function
+// may return a nil server indicating that no server can be found.
+func (r *Router) FindLANServer() *metadata.Server {
+	_, srv, _ := r.FindLANRoute()
+	return srv
 }
 
 // findDirectRoute looks for a route to the given datacenter if it's directly
