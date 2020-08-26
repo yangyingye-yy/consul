@@ -57,7 +57,7 @@
     {{#let (sort-by (comparator 'node' sort) items) as |sorted|}}
       <ChangeableSet @dispatcher={{searchable 'node' sorted}} @terms={{search}}>
         <BlockSlot @name="set" as |filtered|>
-          <ConsulNodeList @items={{filtered}}>
+          <ConsulNodeList @items={{filtered}} @leader={{leader}}>
             <BlockSlot @name="empty">
               <EmptyState @allowLogin={{true}}>
                 <BlockSlot @name="header">
